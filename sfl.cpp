@@ -1,5 +1,6 @@
 #include <iostream>
-struct subforwardlist {
+
+struct subforwardlist{
     int data;
     subforwardlist* next;
 };
@@ -8,25 +9,25 @@ struct subforwardlist {
 
 
 //инициализация пустого недосписка
-bool init(subforwardlist **sfl) {
+bool init(subforwardlist **sfl){
     *sfl = nullptr;
     return 1;
 } 
 
 //добавление элемента в конец недосписка
-bool push_back(subforwardlist** sfl, int d) {
+bool push_back(subforwardlist** sfl, int d){
     subforwardlist* next_element = *sfl;
     subforwardlist* new_element = new subforwardlist;
 
-    if ((*sfl) == nullptr) {
+    if ((*sfl) == nullptr){
         (*sfl) = new_element;
         (*sfl)->data = d;
         (*sfl)->next = nullptr;
         return 0;
     } 
 
-    else {
-        while (next_element->next != nullptr) {
+    else{
+        while (next_element->next != nullptr){
             next_element = next_element->next;
         }
         next_element->next = new_element;
@@ -37,18 +38,20 @@ bool push_back(subforwardlist** sfl, int d) {
 } 
 
 //удаление элемента с конца недосписка, если пустой - возвращать 0
-int pop_back(subforwardlist **sfl) {
+int pop_back(subforwardlist **sfl){
     subforwardlist *next_element = *sfl;
-    if (*sfl == nullptr) {           
+    if (*sfl == nullptr){           
         return 0;
-    } if ((*sfl)->next == nullptr) {
+    } 
+    if ((*sfl)->next == nullptr){
         int deleted = (*sfl)->data;
         delete *sfl;
         *sfl = nullptr;
         return deleted;
-    } else {
-        while (next_element->next->next != nullptr) {//пока не дойдем до предпоследнего элемента
-        next_element = next_element->next;
+    } 
+    else{
+        while (next_element->next->next != nullptr){
+            next_element = next_element->next;
         }
         int deleted = next_element->next->data;
         delete next_element->next;
@@ -58,12 +61,13 @@ int pop_back(subforwardlist **sfl) {
 } 
 
 //добавление элемента в начало недосписка
-bool push_forward(subforwardlist **sfl, int d) {
+bool push_forward(subforwardlist **sfl, int d){
     subforwardlist *first = *sfl;
-    if (*sfl == nullptr) {
+    if (*sfl == nullptr){
         push_back(sfl, d);
         return true;
-    } else {
+    } 
+    else{
         *sfl = new subforwardlist;
         (*sfl)->data = d;
         (*sfl)->next = first;
@@ -72,11 +76,11 @@ bool push_forward(subforwardlist **sfl, int d) {
 }   
 
 //удаление элемента из начала недосписка, если пустой - возвращать 0
-int pop_forward(subforwardlist** sfl) {
-    if (*sfl == nullptr) {           
+int pop_forward(subforwardlist** sfl){
+    if (*sfl == nullptr){           
         return 0;
     } 
-    else {
+    else{
         subforwardlist* d_element = *sfl;
         int d_data = d_element->data;
         *sfl = (*sfl)->next; 
@@ -86,17 +90,14 @@ int pop_forward(subforwardlist** sfl) {
 }
 
 //добавление элемента с порядковым номером where		
-bool push_where(subforwardlist **sfl, unsigned int where, int d) {
+bool push_where(subforwardlist **sfl, unsigned int where, int d){
     subforwardlist *next_element = *sfl;
-
-    if (where == 0) {
+    if (where == 0){
         return push_forward(sfl, d);
     }
-
-    for (unsigned int i = 0; i <where-1;++i) {
+    for (unsigned int i = 0; i < where-1; i++){
         next_element = next_element->next;
     }
-
     subforwardlist *first = new subforwardlist;
     first->data = d;
     first->next = next_element->next;
@@ -105,17 +106,18 @@ bool push_where(subforwardlist **sfl, unsigned int where, int d) {
 }   
 
 //удаление элемента с порядковым номером where, если пустой - возвращать 0
-int erase_where(subforwardlist **sfl, unsigned int where) {
+int erase_where(subforwardlist **sfl, unsigned int where){
     subforwardlist *next_element = *sfl;
-    if (where == 0) {
+    if (where == 0){
         return pop_forward(sfl);
     }
-    for (unsigned int i = 0; i < where-1; ++i) {
+    for (unsigned int i = 0; i < where-1; i++){
         next_element = next_element->next;
     }
-    if (next_element->next == nullptr) {
+    if (next_element->next == nullptr){
         return 0;
-    } else {
+    } 
+    else{
         int deleted = next_element->next->data;
         subforwardlist *link1 = next_element->next->next;
         delete next_element->next;
@@ -125,19 +127,19 @@ int erase_where(subforwardlist **sfl, unsigned int where) {
 }
   
 //определить размер недосписка
-unsigned int size(subforwardlist **sfl) {
+unsigned int size(subforwardlist **sfl){
     subforwardlist *next_element = *sfl;
     unsigned int i = 0;
-    while (next_element != nullptr) {
+    while (next_element != nullptr){
         next_element = next_element->next;
         i++;
-        }
+    }
     return i;
 }   
 
 //очистить содержимое недосписка
-void clear(subforwardlist **sfl) {
-    while (*sfl != nullptr) {
+void clear(subforwardlist **sfl){
+    while (*sfl != nullptr){
         pop_forward(sfl);
     }
 }
